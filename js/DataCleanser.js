@@ -1,5 +1,5 @@
 /**
- * Wrapper module for the algorithms related to cleaning erroneous points 
+ * Module for the algorithms related to cleaning erroneous points 
  * from sample geographic data.
  */
 var DataCleanser = (function() {
