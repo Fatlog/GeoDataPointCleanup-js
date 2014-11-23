@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Geo Data Points Clean-Up</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css" />
+	<script src="http://leafletjs.com/dist/leaflet.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://jquery-csv.googlecode.com/files/jquery.csv-0.71.min.js"></script>
+	<script src="js/Map.js"></script>
+	<script src="js/GeoUtilities.js"></script>
+	<script src="js/DataCleanser.js"></script>	
+	<script>
+		$(document).ready(function() {
+			// Show uncleaned data points
+			getData("data/uncleaned.csv");
+		});
+		
+		/**
+		 * AJAX Wrapper to get & plot sample location data.
+		 *
+		 * @param 	fileName	The fileName of the data to be mapped.
+		 * @param 	nodeName	The name of the DOM node to render the map in.
+		 */
+		function getData(fileName) {
+			$.ajax({
+				type: "GET",
+				url: fileName,
+				dataType: "text",
+				success: function(data) {
+					// render map of uncleaned data points first
+					MapUtils.createMap($.csv.toArrays(data), "uncleanedMap");
+					
+					// clean the data of erroneous points
+					var cleanData = DataCleanser.cleanseData($.csv.toArrays(data));
+					
+					// render map of cleaned data points
+					MapUtils.createMap(cleanData, "cleanedMap");
+				},
+				error: function(){console.log("Error: Could not load data");}
+			});
+		}
+	</script>
+</head>
+<body>
+	<h1>Uncleaned</h1>
+	<div id="uncleanedMap" style="width: 600px; height: 400px"></div>	
+	<h1>Cleaned</h1>
+	<div id="cleanedMap" style="width: 600px; height: 400px"></div>		
+</body>
+</html>
