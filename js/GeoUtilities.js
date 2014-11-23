@@ -1,5 +1,5 @@
 /**
- * Wrapper module for functions related to analysing & manipulating
+ * Module for functions related to analysing & manipulating
  * geographic data.
  */
 var GeoUtilities = (function() {
